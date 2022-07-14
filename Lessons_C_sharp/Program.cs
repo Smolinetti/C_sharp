@@ -1,137 +1,104 @@
-﻿// Задача 25: Напишите цикл, который принимает на вход два числа (A и B) и возводит число A в натуральную степень B.
+﻿// Задача 34: Задайте массив заполненный случайными положительными трёхзначными числами. Напишите программу, которая покажет количество чётных чисел в массиве.
 
-Console.WriteLine($"\nВозведене числа A в натуральную степень B");
+Console.Clear();
+Console.WriteLine($"Задача 34. Количество чётных чисел в массиве:\n");
+int[] numbers = new int[10];
 
-int Exponentiation(int numberA, int numberB)
+void FillArray(int[] array, int min, int max)
 {
-    int result = 1;
-    for (int i = 1; i <= numberB; i++)
+    for (int i = 0; i < array.Length; i++)
     {
-        result = result * numberA;
+        array[i] = new Random().Next(min, max);
     }
-    // int result = Math.Pow(numberA, numberB);
-    return result;
 }
 
-Console.Write("Введите число A: ");
-int numberA = Convert.ToInt32(Console.ReadLine());
-Console.Write("Введите число B: ");
-int numberB = Convert.ToInt32(Console.ReadLine());
-
-int exponentiation = Exponentiation(numberA, numberB);
-Console.WriteLine("Ответ: " + exponentiation);
-
-
-// Задача 27: Напишите программу, которая принимает на вход число и выдаёт сумму цифр в числе.
-
-Console.WriteLine($"\nВывод суммы цифр в числе");
-Console.Write("Введите число N: ");
-int numberN = Convert.ToInt32(Console.ReadLine());
-
-int SumNumber(int numberN)
+void WriteArray(int[] array)
 {
-
-    int counter = Convert.ToString(numberN).Length;
-    int advance = 0;
-    int result = 0;
-
-    for (int i = 0; i < counter; i++)
+    for (int i = 0; i < array.Length; i++)
     {
-        advance = numberN - numberN % 10;
-        result = result + (numberN - advance);
-        numberN = numberN / 10;
+        Console.Write(array[i] + " ");
     }
-    return result;
+    Console.WriteLine();
 }
 
-int sumNumber = SumNumber(numberN);
-Console.WriteLine("Сумма цифр в числе: " + sumNumber);
-
-// Задача 29: Напишите программу, которая задаёт массив из 8 элементов и выводит их на экран.
-
-Console.WriteLine($"\nЧисла преобразуем в массив");
-Console.Write("Введите ряд чисел, разделенных запятой : ");
-string? seriesOfNumbers = Console.ReadLine();
-
-seriesOfNumbers = seriesOfNumbers + ",";
-
-string RemovingSpaces(string series)
+int QuantityPositive(int[] array)
 {
-    string seriesNew = "";
-    for (int i = 0; i < series.Length; i++)
+    int quantity = 0;
+    for (int i = 0; i < array.Length; i++)
     {
-        if (series[i] != ' ')
+        if (array[i] % 2 == 1)
         {
-            seriesNew += series[i];
+            quantity++;
         }
     }
-    return seriesNew;
+    return quantity;
 }
 
-void СheckNumber2(int series)
+FillArray(numbers, 100, 1000);
+WriteArray(numbers);
+Console.WriteLine();
+
+int quantity = QuantityPositive(numbers);
+Console.WriteLine($"Количество чётных чисел в массиве: {quantity}");
+
+
+// Задача 36: Задайте одномерный массив, заполненный случайными числами. Найдите сумму элементов, стоящих на нечётных позициях.
+
+Console.WriteLine($"\nЗадача 36. Сумма элементов, стоящих на нечётных позициях:\n");
+Console.Write($"Введи количество элементов массива: ");
+int numberElements = Convert.ToInt32(Console.ReadLine());
+
+int RandomNumbers(int numberElements, int min, int max)
 {
+    int[] randomNumbers = new int[numberElements];
+    int sumElements = 0;
+    Console.Write("Получившийся массив: ");
 
-    if (series == '0' || series == '1' || series == '2'
-    || series == '3' || series == '4' || series == '5' || series == '6'
-    || series == '7' || series == '8' || series == '9' || series == ','
-    || series == '-')
+    for (int i = 0; i < randomNumbers.Length; i++)
     {
-    }
-    else
-    {
-        Console.WriteLine($"Ошибка ввода  символа. Введите цифры.");
+        randomNumbers[i] = new Random().Next(min, max);
 
-    }
-}
+        Console.Write(randomNumbers[i] + " ");
 
-int[] ArrayOfNumbers(string seriesNew)
-{
-
-    int[] arrayOfNumbers = new int[1]; 
-
-    int j = 0;
-
-    for (int i = 0; i < seriesNew.Length; i++)
-    {
-        string seriesNew1 = "";
-
-        while (seriesNew[i] != ',' && i < seriesNew.Length)
+        if (i % 2 != 1)
         {
-            seriesNew1 += seriesNew[i];
-            СheckNumber2(seriesNew[i]);
-            i++;
-        }
-        arrayOfNumbers[j] = Convert.ToInt32(seriesNew1);    
-        if (i < seriesNew.Length - 1)
-        {
-            arrayOfNumbers = arrayOfNumbers.Concat(new int[] { 0 }).ToArray();    
-        }
-        j++;
-    }
-    return arrayOfNumbers;
-}
-
-
-void PrintArry(int[] coll)
-{
-    int count = coll.Length;
-    int index = 0;
-    Console.Write("[");
-    while (index < count)
-    {
-        Console.Write(coll[index]);
-        index++;
-        if (index < count)
-        {
-            Console.Write(", ");
+            sumElements = sumElements + randomNumbers[i];
         }
     }
-    Console.Write("]");
+    return sumElements;
 }
 
+int randomNumbers = RandomNumbers(numberElements, 1, 10);
 
-string seriesNew = RemovingSpaces(seriesOfNumbers);
+Console.WriteLine($"\nСумма элементов, стоящих на нечётных позициях: {randomNumbers}");
 
-int[] arrayOfNumbers = ArrayOfNumbers(seriesNew);
 
-PrintArry(arrayOfNumbers);
+// Задача 38: Задайте массив вещественных чисел. Найдите разницу между максимальным и минимальным элементов массива.
+
+Console.WriteLine($"\nЗадача 38. Найдите разницу между максимальным и минимальным элементов массива из вещественных чисел:\n");
+
+double[] arrayRealNumbers = new double[10];
+for (int i = 0; i < arrayRealNumbers.Length; i++)
+{
+    arrayRealNumbers[i] = new Random().Next(1, 10);
+    Console.Write(arrayRealNumbers[i] + " ");
+}
+
+double maxNumber = arrayRealNumbers[0];
+double minNumber = arrayRealNumbers[0];
+
+for (int i = 1; i < arrayRealNumbers.Length; i++)
+{
+    if (maxNumber < arrayRealNumbers[i])
+    {
+        maxNumber = arrayRealNumbers[i];
+    }
+    if (minNumber > arrayRealNumbers[i])
+    {
+        minNumber = arrayRealNumbers[i];
+    }
+}
+
+double decision = maxNumber - minNumber;
+
+Console.WriteLine($"\nРазница между максимальным ({maxNumber}) и минимальным({minNumber}) элементами: {decision}");
