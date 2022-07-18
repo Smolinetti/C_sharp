@@ -1,104 +1,155 @@
-﻿// Задача 34: Задайте массив заполненный случайными положительными трёхзначными числами. Напишите программу, которая покажет количество чётных чисел в массиве.
+﻿// Задача 47: Задайте двумерный массив размером m×n, заполненный случайными вещественными числами.
+
+Console.WriteLine($"Задача 47: Задайте двумерный массив размером m x n, заполненный случайными вещественными числами.");
+
+Console.Write("Введите m: ");
+int m = Convert.ToInt32(Console.ReadLine());
+Console.Write("Введите n: ");
+int n = Convert.ToInt32(Console.ReadLine());
 
 Console.Clear();
-Console.WriteLine($"Задача 34. Количество чётных чисел в массиве:\n");
-int[] numbers = new int[10];
+Console.WriteLine($"m = {m}, n = {n}.");
 
-void FillArray(int[] array, int min, int max)
-{
-    for (int i = 0; i < array.Length; i++)
-    {
-        array[i] = new Random().Next(min, max);
-    }
-}
+double[,] array = new double[m, n];
 
-void WriteArray(int[] array)
-{
-    for (int i = 0; i < array.Length; i++)
-    {
-        Console.Write(array[i] + " ");
-    }
-    Console.WriteLine();
-}
+CreateArrayDouble(array);
 
-int QuantityPositive(int[] array)
-{
-    int quantity = 0;
-    for (int i = 0; i < array.Length; i++)
-    {
-        if (array[i] % 2 == 1)
-        {
-            quantity++;
-        }
-    }
-    return quantity;
-}
+WriteArray(array);
 
-FillArray(numbers, 100, 1000);
-WriteArray(numbers);
 Console.WriteLine();
 
-int quantity = QuantityPositive(numbers);
-Console.WriteLine($"Количество чётных чисел в массиве: {quantity}");
-
-
-// Задача 36: Задайте одномерный массив, заполненный случайными числами. Найдите сумму элементов, стоящих на нечётных позициях.
-
-Console.WriteLine($"\nЗадача 36. Сумма элементов, стоящих на нечётных позициях:\n");
-Console.Write($"Введи количество элементов массива: ");
-int numberElements = Convert.ToInt32(Console.ReadLine());
-
-int RandomNumbers(int numberElements, int min, int max)
+void CreateArrayDouble(double[,] array)
 {
-    int[] randomNumbers = new int[numberElements];
-    int sumElements = 0;
-    Console.Write("Получившийся массив: ");
-
-    for (int i = 0; i < randomNumbers.Length; i++)
+    for (int i = 0; i < m; i++)
     {
-        randomNumbers[i] = new Random().Next(min, max);
-
-        Console.Write(randomNumbers[i] + " ");
-
-        if (i % 2 != 1)
+        for (int j = 0; j < n; j++)
         {
-            sumElements = sumElements + randomNumbers[i];
+            array[i, j] = new Random().NextDouble() * 20 - 10;
         }
     }
-    return sumElements;
 }
 
-int randomNumbers = RandomNumbers(numberElements, 1, 10);
-
-Console.WriteLine($"\nСумма элементов, стоящих на нечётных позициях: {randomNumbers}");
-
-
-// Задача 38: Задайте массив вещественных чисел. Найдите разницу между максимальным и минимальным элементов массива.
-
-Console.WriteLine($"\nЗадача 38. Найдите разницу между максимальным и минимальным элементов массива из вещественных чисел:\n");
-
-double[] arrayRealNumbers = new double[10];
-for (int i = 0; i < arrayRealNumbers.Length; i++)
+void WriteArray(double[,] array)
 {
-    arrayRealNumbers[i] = new Random().Next(1, 10);
-    Console.Write(arrayRealNumbers[i] + " ");
-}
-
-double maxNumber = arrayRealNumbers[0];
-double minNumber = arrayRealNumbers[0];
-
-for (int i = 1; i < arrayRealNumbers.Length; i++)
-{
-    if (maxNumber < arrayRealNumbers[i])
+    for (int i = 0; i < m; i++)
     {
-        maxNumber = arrayRealNumbers[i];
-    }
-    if (minNumber > arrayRealNumbers[i])
-    {
-        minNumber = arrayRealNumbers[i];
+        for (int j = 0; j < n; j++)
+        {
+            double alignNumber = Math.Round(array[i, j], 1);
+            Console.Write(alignNumber + " ");
+        }
+        Console.WriteLine();
     }
 }
 
-double decision = maxNumber - minNumber;
 
-Console.WriteLine($"\nРазница между максимальным ({maxNumber}) и минимальным({minNumber}) элементами: {decision}");
+// Задача 50: Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, и возвращает значение этого элемента или же указание, что такого элемента нет.
+
+Console.WriteLine($"Задача 50: Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, и возвращает значение этого элемента или же указание, что такого элемента нет.");
+
+Console.Write("\nMассив возьмем из предыдущей задачи (№ 47).\n");
+Console.Write("Введите координаты позиции элемента, разделенных запятой: ");
+
+string? positionElement = Console.ReadLine();
+positionElement = RemovingSpaces(positionElement);
+int[] position = ParserString(positionElement);
+
+if (position[0] <= m
+&& position[1] <= n
+&& position[0] >= 0
+&& position[1] >= 0)
+{
+    double result = array[position[0] - 1, position[1] - 1];
+    Console.Write($"Значение элемента: {result}");
+}
+else Console.Write($"такого элемента в массиве нет.");
+
+int[] ParserString(string input)
+{
+    int countNumbers = 1;
+    for (int i = 0; i < input.Length; i++)
+    {
+        if (input[i] == ',')
+            countNumbers++;
+    }
+
+    int[] numbers = new int[countNumbers];
+
+    int numberIndex = 0;
+    for (int i = 0; i < input.Length; i++)
+    {
+        string subString = String.Empty;
+
+        while (input[i] != ',')
+        {
+            subString += input[i].ToString();
+            if (i >= input.Length - 1)
+                break;
+            i++;
+        }
+        numbers[numberIndex] = Convert.ToInt32(subString);
+        numberIndex++;
+    }
+
+    return numbers;
+}
+
+string RemovingSpaces(string input)
+{
+    string output = String.Empty;
+    for (int i = 0; i < input.Length; i++)
+    {
+        if (input[i] != ' ')
+        {
+            output += input[i];
+        }
+    }
+    return output;
+}
+
+// Задача 52: Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
+
+Console.WriteLine($"\n\nЗадача 52: Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.");
+Console.Write("\nMассив возьмем из предыдущей задачи (№ 47), преобразовав double в int32.\n");
+
+int[,] arrayWhole = new int[m, n];
+arrayWhole = TransformationArrayWhole(array);
+
+WriteArrayInt(arrayWhole);
+
+Console.Write($"\nCреднее арифметическое:\n");
+for (int i = 0; i < n; i++)
+{
+    double arithmeticMean = 0;
+    for (int j = 0; j < m; j++)
+    {
+        arithmeticMean += arrayWhole[j, i];
+    }
+    arithmeticMean = Math.Round(arithmeticMean / m, 1);
+    Console.WriteLine($"столбца № {i + 1} {arithmeticMean}");
+}
+
+int[,] TransformationArrayWhole(double[,] array)
+{
+    int[,] arrayWhole = new int[array.GetLength(0), array.GetLength(1)];
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            arrayWhole[i, j] = Convert.ToInt32(array[i, j]);
+        }
+    }
+    return arrayWhole;
+}
+
+void WriteArrayInt(int[,] arrayWhole)
+{
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            Console.Write(arrayWhole[i, j] + " ");
+        }
+        Console.WriteLine();
+    }
+}
