@@ -1,17 +1,28 @@
-﻿// Задача 64: Задайте значения M и N. Напишите программу, которая выведет все натуральные числа в промежутке от M до N, кратные трём.
+﻿// Задача 66: Задайте значения M и N. Напишите программу, которая найдёт сумму натуральных элементов в промежутке от M до N.
 
 Console.Clear();
-Console.WriteLine($"Задайте значения M и N. Напишите программу, которая выведет все натуральные числа в промежутке от M до N, кратные трём.");
-int n = InputNumbers("Введите n: ");
+Console.WriteLine($"Задача 66: Задайте значения M и N. Напишите программу, которая найдёт сумму натуральных элементов в промежутке от M до N");
 int m = InputNumbers("Введите m: ");
-PrintNumber(n, m);
-Console.Write(m);
+int n = InputNumbers("Введите n: ");
+int temp = m;
 
-void PrintNumber(int n, int m)
+if (m > n)
 {
-    if (m > n) return;
-    PrintNumber(n, m + 1);
-    Console.Write(m + ", ");
+    m = n;
+    n = temp;
+}
+
+PrintSumm(m, n, temp = 0);
+
+void PrintSumm(int m, int n, int summ)
+{
+    summ = summ + n;
+    if (n <= m)
+    {
+        Console.Write($"Сумма элементов= {summ} ");
+        return;
+    }
+    PrintSumm(m, n - 1, summ);
 }
 
 int InputNumbers(string input)
